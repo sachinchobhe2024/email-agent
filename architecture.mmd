@@ -1,0 +1,27 @@
+flowchart TD
+
+A[Unread Emails from Gmail] --> B[Extract Subject & Body]
+
+B --> C{Rule-based Classifier}
+
+C -->|Confident| D[Assign Label]
+
+C -->|Uncertain| E[Retrieve Context (FAISS)]
+
+E --> F[LLM Classification (Ollama)]
+
+F --> G[Reflection Layer]
+
+G --> H[Final Decision]
+
+H --> I[Apply Gmail Label]
+
+H --> J[Store in Vector DB]
+
+J --> E
+
+H --> K[Log Results]
+
+
+
+
