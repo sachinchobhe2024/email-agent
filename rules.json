@@ -1,0 +1,48 @@
+{
+  "priority_order": [
+    "CC",
+    "LOW_PRIORITY",
+    "MEETING",
+    "HIGH_PRIORITY"
+  ],
+  "rules": {
+    "HIGH_PRIORITY": [
+      "urgent", "asap", "immediately", "production issue",
+      "failure", "error", "down", "critical", "blocker"
+    ],
+    "MEETING": [
+      "meeting", "schedule", "invite", "calendar", "zoom", "teams"
+    ],
+    "LOW_PRIORITY": [
+      "refer", "referral", "reward", "hiring", "job", "career",
+      "newsletter", "update", "subscription", "promo", "offer"
+    ]
+  },
+"test_cases": [
+    {
+      "subject": "Urgent: Production down",
+      "body": "",
+      "expected": "High Priority"
+    },
+    {
+      "subject": "Meeting invite",
+      "body": "",
+      "expected": "Meeting"
+    },
+    {
+      "subject": "Refer a friend and earn rewards",
+      "body": "",
+      "expected": "Low Priority"
+    },
+    {
+      "subject": "Weekly newsletter update",
+      "body": "",
+      "expected": "Low Priority"
+    },
+    {
+      "subject": "You are cc'd on this email",
+      "body": "",
+      "expected": "CC"
+    }
+  ]
+}
