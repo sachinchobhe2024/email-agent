@@ -5,6 +5,7 @@ import re
 import requests
 import faiss
 import os
+import sys
 import numpy as np
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -259,7 +260,7 @@ def call_llm(prompt):
             "prompt": prompt,
             "stream": False
         },
-        timeout=60
+        timeout=30
     )
 
     return response.json()["response"]
@@ -310,18 +311,18 @@ Body: {body[:500]}
    
     response = call_llm(prompt)
 
-    print(f"[RAW LLM RESPONSE] -> {repr(response)}")
+    # print(f"[RAW LLM RESPONSE] -> {repr(response)}")
 
     result = response.strip().split("\n")[0]
     result = result.replace("Category:", "").strip()
     result = result.replace(".", "").strip()
 
-    print(f"[CLEANED CATEGORY] -> {repr(result)}")
+    # print(f"[CLEANED CATEGORY] -> {repr(result)}")
 
     # ✅ Normalize to valid labels
     result = normalize_label(result)
 
-    print(f"[FINAL CATEGORY] -> {repr(result)}")
+    # print(f"[FINAL CATEGORY] -> {repr(result)}")
 
     return result
 
@@ -355,11 +356,11 @@ def sanitize_label_name(name):
 
 # 🏷️ Get or create label (with cache)
 def get_or_create_label(service, label_name, labels_cache):
-    print(f"[RAW LABEL] -> {repr(label_name)}")
+    # print(f"[RAW LABEL] -> {repr(label_name)}")
 
     label_name = sanitize_label_name(label_name)
 
-    print(f"[SANITIZED LABEL] -> {repr(label_name)}")
+    # print(f"[SANITIZED LABEL] -> {repr(label_name)}")
 
     for label in labels_cache:
         if label['name'].lower() == label_name.lower():
@@ -427,7 +428,7 @@ def get_emails():
         print("No unread emails found.")
         return
 
-    my_email = "sacc@ciklum.com"  # replace if needed
+    my_email = "sacc@ciklum.com"  
 
     # 🔥 Cache labels once
     labels_cache = service.users().labels().list(userId='me').execute().get('labels', [])
@@ -455,7 +456,7 @@ def get_emails():
             # print("[RAG CONTEXT] ->", context)
             category = llm_classify(subject, body,context)            
         except Exception as e:
-            print("[LLM FAILED] -> Falling back", e)
+            # print("[LLM FAILED] -> Falling back", e)
             category = classify_email(subject, body, headers, my_email)
         store_email(subject, body,category)
         print(f"[LLM CATEGORY] -> {category}")
@@ -494,4 +495,8 @@ def get_emails():
 
 
 if __name__ == '__main__':
-    get_emails()
+    if len(sys.argv) > 1 and sys.argv[1] == "eval":
+        evaluate()
+    else:
+        get_emails()
+ 
