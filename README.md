@@ -72,12 +72,8 @@ python read_emails.py
 ## 🧪 Run Evaluation
 
 ```bash
-python read_emails.py
+python read_emails.py eval
 ```
-
-(Enable `evaluate()` in main)
-
----
 
 ## 📊 Output
 
