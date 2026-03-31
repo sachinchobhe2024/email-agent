@@ -54,6 +54,7 @@ pip install -r requirements.txt
 * Create credentials in Google Cloud Console
 * Download `credentials.json`
 * Place it in the project root
+* replace emailid sacc@ciklum.com with your email id from read_emails.py file
 
 ### 3. Run Ollama locally
 
